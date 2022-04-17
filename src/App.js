@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useState } from 'react';
 import Input from './components/Input/Input';
 import IssuesList from './components/Issues/IssuesList';
 import Button from './UI/Button/Button';
+import LoadingSpinner from './UI/LoadingSpinner/LoadingSpinner';
 
 function App() {
 	const [enteredOwner, setEnteredOwner] = useState('');
@@ -26,11 +27,12 @@ function App() {
 			);
 
 			const data = await response.json();
+
 			const loadedReposData = [];
 			for (const key in data) {
 				loadedReposData.push({
 					id: key,
-					details: data[key].url,
+					details: data[key].title,
 				});
 			}
 
@@ -53,7 +55,7 @@ function App() {
 			<section>
 				{!isLoading && issues.length > 0 && <IssuesList issues={issues} />}
 				{issues.length === 0 && <h2>No Issues</h2>}
-				{isLoading && <h2>Loading...</h2>}
+				{isLoading && <LoadingSpinner />}
 				{error}
 			</section>
 		</Fragment>
